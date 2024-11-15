@@ -13,3 +13,5 @@ pom.xml.asc
 .hg/
 /.idea/
 /http-client-component.iml
+/.clj-kondo/.cache/
+/.lsp/.cache/
