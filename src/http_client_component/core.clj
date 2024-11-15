@@ -1,12 +1,13 @@
 (ns http-client-component.core
-  (:require [clojure.tools.logging :as log]
-            [clj-http.lite.client :as client]
-            [iapetos.core :as prometheus]
-            [medley.core :as medley]
-            [cheshire.core :as json]
-            [camel-snake-kebab.core :as camel-snake-kebab]
-            [schema.core :as s]
-            [integrant.core :as ig]))
+  (:require
+   [camel-snake-kebab.core :as camel-snake-kebab]
+   [cheshire.core :as json]
+   [clj-http.lite.client :as client]
+   [clojure.tools.logging :as log]
+   [iapetos.core :as prometheus]
+   [integrant.core :as ig]
+   [medley.core :as medley]
+   [schema.core :as s]))
 
 (def method->request-fn
   {:post   client/post
@@ -19,29 +20,29 @@
     current-env))
 
 (s/defmethod request! :prod
-             [{:keys [method url payload endpoint-id] :as _request-map}
-              {:keys [prometheus-registry service] :as _http-client}]
-             (try (let [request-fn (method->request-fn method)
-                        http-response (request-fn url payload)]
-                    (when prometheus-registry
-                      (prometheus/inc prometheus-registry :http-request-response {:status   (:status http-response)
-                                                                                  :service  service
-                                                                                  :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}))
-                    http-response)
-                  (catch Exception ex
-                    (when prometheus-registry
-                      (prometheus/inc prometheus-registry :http-request-response {:status   (:status (ex-data ex))
-                                                                                  :service  service
-                                                                                  :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}))
-                    (log/error ex)
-                    (throw ex))))
+  [{:keys [method url payload endpoint-id] :as _request-map}
+   {:keys [prometheus-registry service] :as _http-client}]
+  (try (let [request-fn (method->request-fn method)
+             http-response (request-fn url payload)]
+         (when prometheus-registry
+           (prometheus/inc prometheus-registry :http-request-response {:status   (:status http-response)
+                                                                       :service  service
+                                                                       :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}))
+         http-response)
+       (catch Exception ex
+         (when prometheus-registry
+           (prometheus/inc prometheus-registry :http-request-response {:status   (:status (ex-data ex))
+                                                                       :service  service
+                                                                       :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}))
+         (log/error ex)
+         (throw ex))))
 
 (s/defmethod request! :test
-             [{:keys [method url payload] :as request-map}
-              {:keys [requests] :as _http-client}]
-             (let [request-fn (method->request-fn method)]
-               (swap! requests conj request-map)
-               (request-fn url payload)))
+  [{:keys [method url payload] :as request-map}
+   {:keys [requests] :as _http-client}]
+  (let [request-fn (method->request-fn method)]
+    (swap! requests conj request-map)
+    (request-fn url payload)))
 
 (defn requests
   [{:keys [requests]}]

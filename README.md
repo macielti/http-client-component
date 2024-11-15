@@ -1,3 +1,5 @@
+![Compatible with GraalVM](https://img.shields.io/badge/compatible_with-GraalVM-green)
+
 # HTTP Client Component
 
 This component provides a simple HTTP client that can be used to make HTTP requests to a server.
