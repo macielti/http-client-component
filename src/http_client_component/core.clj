@@ -1,18 +1,19 @@
 (ns http-client-component.core
   (:require [camel-snake-kebab.core :as camel-snake-kebab]
             [cheshire.core :as json]
-            [clj-http.lite.client :as client]
             [clojure.tools.logging :as log]
             [iapetos.core :as prometheus]
             [integrant.core :as ig]
             [medley.core :as medley]
+            [org.httpkit.client :as hk-client]
             [schema.core :as s]))
 
 (def method->request-fn
-  {:post   client/post
-   :get    client/get
-   :put    client/put
-   :delete client/delete})
+  {:post   hk-client/post
+   :get    hk-client/get
+   :put    hk-client/put
+   :patch  hk-client/patch
+   :delete hk-client/delete})
 
 (defmulti request!
   (fn [_ {:keys [current-env]}]
