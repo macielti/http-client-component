@@ -5,6 +5,13 @@ of [keepachangelog.com](http://keepachangelog.com/).
 
 ## Unreleased
 
+## 1.1.1 - 2025-01-31
+
+### Fixed
+
+- Fixed a bug where the metrics were not being sent with the proper status code response label.
+- Refactor the way the metrics are being produced.
+
 ## 1.1.0 - 2025-01-07
 
 ### Changed
