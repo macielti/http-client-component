@@ -19,23 +19,24 @@
   (fn [_ {:keys [current-env]}]
     current-env))
 
+(s/defn http-response-metric!
+  [service :- s/Str
+   status :- s/Int
+   endpoint-id :- s/Str
+   prometheus-registry :- s/Any]
+  (prometheus/inc prometheus-registry :http-request-response {:status   status
+                                                              :service  service
+                                                              :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}))
+
 (s/defmethod request! :prod
   [{:keys [method url payload endpoint-id] :as _request-map}
    {:keys [prometheus-registry service] :as _http-client}]
-  (try (let [request-fn (method->request-fn method)
-             http-response (request-fn url payload)]
-         (when prometheus-registry
-           (prometheus/inc prometheus-registry :http-request-response {:status   (:status http-response)
-                                                                       :service  service
-                                                                       :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}))
-         http-response)
-       (catch Exception ex
-         (when prometheus-registry
-           (prometheus/inc prometheus-registry :http-request-response {:status   (:status (ex-data ex))
-                                                                       :service  service
-                                                                       :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}))
-         (log/error ex)
-         (throw ex))))
+  (let [request-fn (method->request-fn method)
+        async-callback-fn (fn [response]
+                            (when prometheus-registry
+                              (http-response-metric! service (:status response) endpoint-id prometheus-registry))
+                            response)]
+    (request-fn url payload async-callback-fn)))
 
 (s/defmethod request! :test
   [{:keys [method url payload] :as request-map}
