@@ -5,6 +5,16 @@ of [keepachangelog.com](http://keepachangelog.com/).
 
 ## Unreleased
 
+## 1.2.1 - 2025-02-01
+
+### Added
+
+- Added metrics about the response time of the out requests (`:http-request-response-timing`).
+
+### Changed
+
+- Bump dependencies.
+
 ## 1.1.1 - 2025-01-31
 
 ### Fixed

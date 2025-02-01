@@ -1,4 +1,4 @@
-(defproject net.clojars.macielti/http-client-component "1.1.1"
+(defproject net.clojars.macielti/http-client-component "1.2.1"
 
   :description "HTTP Client Component"
 
@@ -20,7 +20,7 @@
   :profiles {:dev {:test-paths   ^:replace ["test/unit" "test/integration" "test/helpers"]
 
                    :plugins      [[lein-cloverage "1.2.4"]
-                                  [com.github.clojure-lsp/lein-clojure-lsp "1.4.15"]
+                                  [com.github.clojure-lsp/lein-clojure-lsp "1.4.16"]
                                   [com.github.liquidz/antq "RELEASE"]]
 
                    :dependencies [[hashp "0.2.2"]]
