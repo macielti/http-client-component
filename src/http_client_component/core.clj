@@ -28,15 +28,26 @@
                                                               :service  service
                                                               :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}))
 
+(s/defn http-response-timing-metric!
+  [service :- s/Str
+   endpoint-id :- s/Str
+   start-ms :- s/Int
+   prometheus-registry :- s/Any]
+  (prometheus/observe prometheus-registry :http-request-response-timing
+                      {:service  service
+                       :endpoint (camel-snake-kebab/->snake_case_string endpoint-id)}
+                      (- (System/currentTimeMillis) start-ms)))
+
 (s/defmethod request! :prod
   [{:keys [method url payload endpoint-id] :as _request-map}
    {:keys [prometheus-registry service] :as _http-client}]
   (let [request-fn (method->request-fn method)
-        async-callback-fn (fn [response]
-                            (when prometheus-registry
-                              (http-response-metric! service (:status response) endpoint-id prometheus-registry))
+        async-callback-fn (fn [{:keys [opts] :as response}]
+                            (future (when prometheus-registry
+                                      (http-response-metric! service (:status response) endpoint-id prometheus-registry)
+                                      (http-response-timing-metric! service endpoint-id (:start-ms opts) prometheus-registry)))
                             response)]
-    (request-fn url payload async-callback-fn)))
+    (request-fn url (assoc payload :start-ms (System/currentTimeMillis)) async-callback-fn)))
 
 (s/defmethod request! :test
   [{:keys [method url payload] :as request-map}
