@@ -1,4 +1,4 @@
-(defproject net.clojars.macielti/http-client-component "1.2.1"
+(defproject net.clojars.macielti/http-client-component "2.2.1"
 
   :description "HTTP Client Component"
 
@@ -7,20 +7,20 @@
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
             :url  "https://www.eclipse.org/legal/epl-2.0/"}
 
-  :dependencies [[org.clojure/clojure "1.12.0"]
-                 [http-kit "2.8.0"]
+  :dependencies [[org.clojure/clojure "1.12.4"]
+                 [http-kit "2.8.1"]
                  [camel-snake-kebab "0.4.3"]
-                 [integrant "0.13.1"]
+                 [integrant "1.0.1"]
                  [prismatic/schema "1.4.1"]
                  [clj-commons/iapetos "0.1.14"]
-                 [org.clojure/tools.logging "1.3.0"]
-                 [dev.weavejester/medley "1.8.1"]
-                 [cheshire "5.13.0"]]
+                 [org.clojure/tools.logging "1.3.1"]
+                 [dev.weavejester/medley "1.9.0"]
+                 [cheshire "6.1.0"]]
 
   :profiles {:dev {:test-paths   ^:replace ["test/unit" "test/integration" "test/helpers"]
 
                    :plugins      [[lein-cloverage "1.2.4"]
-                                  [com.github.clojure-lsp/lein-clojure-lsp "1.4.16"]
+                                  [com.github.clojure-lsp/lein-clojure-lsp "2.0.13"]
                                   [com.github.liquidz/antq "RELEASE"]]
 
                    :dependencies [[hashp "0.2.2"]]
