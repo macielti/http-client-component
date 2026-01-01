@@ -10,11 +10,11 @@
             [schema.core :as s]))
 
 (def method->request-fn
-  {:post   hk-client/post
-   :get    hk-client/get
-   :put    hk-client/put
-   :patch  hk-client/patch
-   :delete hk-client/delete})
+  {:post   ^:clj-kondo/ignore hk-client/post
+   :get    ^:clj-kondo/ignore hk-client/get
+   :put    ^:clj-kondo/ignore hk-client/put
+   :patch  ^:clj-kondo/ignore hk-client/patch
+   :delete ^:clj-kondo/ignore hk-client/delete})
 
 (defmulti request!
   (fn [_ {:keys [current-env]}]
