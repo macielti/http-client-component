@@ -1,5 +1,4 @@
-(ns ^:deprecated http-client-component.with-httpkit-client
-  "This namespace is deprecated. Please use http-client-component.with-hato instead."
+(ns http-client-component.with-httpkit-client
   (:require [camel-snake-kebab.core :as camel-snake-kebab]
             [cheshire.core :as json]
             [clojure.tools.logging :as log]
