@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. This change log follows the conventions
 of [keepachangelog.com](http://keepachangelog.com/).
 
+## 3.2.1 - 2026-01-30
+
+### Added
+
+- Added a version that implements `hato` under the hood.
+
 ## 2.2.1 - 2026-01-01
 
 ### Added
