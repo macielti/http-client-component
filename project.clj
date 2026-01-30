@@ -1,4 +1,4 @@
-(defproject net.clojars.macielti/http-client-component "2.2.1"
+(defproject net.clojars.macielti/http-client-component "3.2.1"
 
   :description "HTTP Client Component"
 
@@ -15,6 +15,7 @@
                  [clj-commons/iapetos "0.1.14"]
                  [org.clojure/tools.logging "1.3.1"]
                  [dev.weavejester/medley "1.9.0"]
+                 [hato "1.0.0"]
                  [cheshire "6.1.0"]]
 
   :profiles {:dev {:test-paths   ^:replace ["test/unit" "test/integration" "test/helpers"]
@@ -23,7 +24,8 @@
                                   [com.github.clojure-lsp/lein-clojure-lsp "2.0.13"]
                                   [com.github.liquidz/antq "RELEASE"]]
 
-                   :dependencies [[hashp "0.2.2"]]
+                   :dependencies [[nubank/matcher-combinators "3.10.0"]
+                                  [hashp "0.2.2"]]
 
                    :injections   [(require 'hashp.core)]
 
