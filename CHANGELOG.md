@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. This change log follows the conventions
 of [keepachangelog.com](http://keepachangelog.com/).
 
+## 3.2.3 - 2026-02-21
+
+### Changed
+
+- Make `targets` configuration optional.
+
 ## 3.2.2 - 2026-01-30
 
 ### Changed

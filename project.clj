@@ -1,4 +1,4 @@
-(defproject net.clojars.macielti/http-client-component "3.2.2"
+(defproject net.clojars.macielti/http-client-component "3.2.3"
 
   :description "HTTP Client Component"
 

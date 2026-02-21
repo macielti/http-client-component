@@ -67,12 +67,11 @@
 (defmethod ig/init-key ::http-client
   [_ {:keys [components]}]
   (log/info :starting ::http-client)
-  (let [targets (-> components :config :targets)]
-    (medley/assoc-some {:requests    (atom [])
-                        :service     (-> components :config :service-name)
-                        :current-env (-> components :config :current-env)
-                        :targets     (s/validate models.targets/Targets targets)}
-                       :prometheus-registry (-> components :prometheus :registry))))
+  (medley/assoc-some {:requests    (atom [])
+                      :service     (-> components :config :service-name)
+                      :current-env (-> components :config :current-env)}
+                     :targets (some->> components :config :targets (s/validate models.targets/Targets))
+                     :prometheus-registry (-> components :prometheus :registry)))
 
 (defmethod ig/halt-key! ::http-client
   [_ _]
