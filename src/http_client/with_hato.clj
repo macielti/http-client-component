@@ -1,20 +1,20 @@
-(ns http-client-component.with-httpkit-client
+(ns http-client.with-hato
   (:require [camel-snake-kebab.core :as camel-snake-kebab]
-            [cheshire.core :as json]
             [clojure.tools.logging :as log]
-            [http-client-component.models.targets :as models.targets]
+            [hato.client :as hc]
+            [http-client.models.targets :as models.targets]
             [iapetos.core :as prometheus]
             [integrant.core :as ig]
             [medley.core :as medley]
-            [org.httpkit.client :as hk-client]
             [schema.core :as s]))
 
 (def method->request-fn
-  {:post   ^:clj-kondo/ignore hk-client/post
-   :get    ^:clj-kondo/ignore hk-client/get
-   :put    ^:clj-kondo/ignore hk-client/put
-   :patch  ^:clj-kondo/ignore hk-client/patch
-   :delete ^:clj-kondo/ignore hk-client/delete})
+  {:post   hc/post
+   :get    hc/get
+   :put    hc/put
+   :patch  hc/patch
+   :head   hc/head
+   :delete hc/delete})
 
 (defmulti request!
   (fn [_ {:keys [current-env]}]
@@ -59,19 +59,15 @@
     (swap! requests conj request-map)
     (request-fn uri payload)))
 
-(defn requests
-  [{:keys [requests]}]
-  (map (fn [request]
-         (medley/update-existing-in request [:payload :body] #(json/decode % true))) @requests))
-
 (defmethod ig/init-key ::http-client
   [_ {:keys [components]}]
   (log/info :starting ::http-client)
-  (medley/assoc-some {:requests    (atom [])
-                      :service     (-> components :config :service-name)
-                      :current-env (-> components :config :current-env)}
-                     :targets (some->> components :config :targets (s/validate models.targets/Targets))
-                     :prometheus-registry (-> components :prometheus :registry)))
+  (let [targets (-> components :config :targets)]
+    (medley/assoc-some {:requests    (atom [])
+                        :service     (-> components :config :service-name)
+                        :current-env (-> components :config :current-env)
+                        :targets     (s/validate models.targets/Targets targets)}
+                       :prometheus-registry (-> components :prometheus :registry))))
 
 (defmethod ig/halt-key! ::http-client
   [_ _]

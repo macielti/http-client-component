@@ -1,7 +1,7 @@
 (ns with-hato-test
   (:require [cheshire.core :as json]
             [clojure.test :refer [is testing]]
-            [http-client-component.with-hato :as component.http-client-with-hato]
+            [http-client.with-hato :as component.http-client-with-hato]
             [integrant.core :as ig]
             [matcher-combinators.test :refer [match?]]
             [schema.test :as s]))

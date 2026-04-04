@@ -1,4 +1,4 @@
-(ns http-client-component.models.targets
+(ns http-client.models.targets
   (:require [schema.core :as s]))
 
 (def targets

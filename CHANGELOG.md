@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. This change log follows the conventions
 of [keepachangelog.com](http://keepachangelog.com/).
 
+## 4.0.0 - 2026-04-04
+
+### Changed
+
+- Renamed project from `http-client-component` to `http-client`.
+- Added `HttpClientComponent` and `RequestMap` schemas to `http-client.with-httpkit-client`.
+- Bumped `cheshire` to `6.2.0`, `medley` to `1.10.0`, and `lein-clojure-lsp` to `2.0.14`.
+
 ## 3.2.3 - 2026-02-21
 
 ### Changed
