@@ -1,4 +1,4 @@
-(defproject net.clojars.macielti/http-client-component "3.2.3"
+(defproject net.clojars.macielti/http-client "4.0.0"
 
   :description "HTTP Client Component"
 
@@ -14,14 +14,14 @@
                  [prismatic/schema "1.4.1"]
                  [clj-commons/iapetos "0.1.14"]
                  [org.clojure/tools.logging "1.3.1"]
-                 [dev.weavejester/medley "1.9.0"]
+                 [dev.weavejester/medley "1.10.0"]
                  [hato "1.0.0"]
-                 [cheshire "6.1.0"]]
+                 [cheshire "6.2.0"]]
 
   :profiles {:dev {:test-paths   ^:replace ["test/unit" "test/integration" "test/helpers"]
 
                    :plugins      [[lein-cloverage "1.2.4"]
-                                  [com.github.clojure-lsp/lein-clojure-lsp "2.0.13"]
+                                  [com.github.clojure-lsp/lein-clojure-lsp "2.0.14"]
                                   [com.github.liquidz/antq "RELEASE"]]
 
                    :dependencies [[nubank/matcher-combinators "3.10.0"]
